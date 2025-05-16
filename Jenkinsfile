@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/MOHAMEDBOUTALMAOUINE/Jenkins-Hello-World'
+                git branch: 'main', url: 'https://github.com/MOHAMEDBOUTALMAOUINE/Jenkins-Hello-World'
             }
         }
 
