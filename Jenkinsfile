@@ -1,60 +1,26 @@
-properties([pipelineTriggers([githubPush()])])
-
 pipeline {
-    environment {
-        // name of the image without tag
-        dockerRepo = "varungujarathi9/jenkins-hello-world"
-        dockerCredentials = 'docker_hub'
-        dockerImageVersioned = ""
-        dockerImageLatest = ""
-    }
-
     agent any
 
+    environment {
+        DOCKER_CREDENTIALS_ID = 'docker-hub-creds'
+    }
+
     stages {
-        /* checkout repo */
-        stage('Checkout SCM') {
+        stage('Clone Repo') {
             steps {
-                checkout([
-                 $class: 'GitSCM',
-                 branches: [[name: 'master']],
-                 userRemoteConfigs: [[
-                    url: 'https://www.github.com/varungujarathi9/Jenkins-Hello-World.git',
-                    credentialsId: '',
-                 ]]
-                ])
+                git 'https://github.com/ton-user/ton-repo.git'
             }
         }
-        stage("Building docker image"){
-            steps{
-                script{
-                    dockerImageVersioned = docker.build dockerRepo + ":$BUILD_NUMBER"
-                    dockerImageLatest = docker.build dockerRepo + ":latest"
-                }
-            }
-        }
-        stage("Pushing image to registry"){
-            steps{
-                script{
-                    // if you want to use custom registry, use the first argument, which is blank in this case
-                    docker.withRegistry( '', dockerCredentials){
-                        dockerImageVersioned.push()
-                        dockerImageLatest.push()
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                        def app = docker.build("ton-user/ton-image:latest")
+                        app.push()
                     }
                 }
             }
         }
-        stage('Cleaning up') {
-            steps {
-                sh "docker rmi $dockerRepo:$BUILD_NUMBER"
-            }
-        }
     }
-
-    /* Cleanup workspace */
-    post {
-       always {
-           deleteDir()
-       }
-   }
 }
