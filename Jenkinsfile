@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'docker-hub-creds'
+        DOCKER_CREDENTIALS_ID = '123456'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/ton-user/ton-repo.git'
+                git 'https://github.com/MOHAMEDBOUTALMAOUINE/Jenkins-Hello-World'
             }
         }
 
