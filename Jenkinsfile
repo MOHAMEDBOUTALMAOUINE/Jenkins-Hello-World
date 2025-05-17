@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS_ID = '123456' // Mets ici l'ID correct
+        DOCKER_CREDENTIALS_ID = 'dockerhub' // Mets ici l'ID correct
     }
 
     stages {
