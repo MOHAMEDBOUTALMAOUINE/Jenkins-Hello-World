@@ -2,22 +2,23 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'dockerhub' // Mets ici l'ID correct
+        DOCKERHUB_CREDENTIALS = 'dockerhub'
+        IMAGE_NAME = 'mohabouta/hello-jenkins'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/MOHAMEDBOUTALMAOUINE/Jenkins-Hello-World'
+                git 'https://github.com/MOHAMEDBOUTALMAOUINE/Jenkins-Hello-World'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        def app = docker.build("ton-user/ton-image:latest")
-                        app.push()
+                    docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
+                        def customImage = docker.build("${IMAGE_NAME}")
+                        customImage.push()
                     }
                 }
             }
