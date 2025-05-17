@@ -1,13 +1,3 @@
-# Jenkins-Hello-World
-- [Jenkins-Hello-World](#jenkins-hello-world)
-  - [Pre-requisites](#pre-requisites)
-  - [Description](#description)
-    - [Installing Jenkins](#installing-jenkins)
-    - [Start, stop, status](#start-stop-status)
-    - [First time login](#first-time-login)
-    - [Integrating GitHub with Jenkins](#integrating-github-with-jenkins)
-    - [Creating Pipeline](#creating-pipeline)
-
 ## Pre-requisites
 
 **You should know** `Docker`, `basic CI-CD concept` & `basics of what Jenkins` is used for
